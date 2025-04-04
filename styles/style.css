@@ -1,0 +1,254 @@
+/*
+ * Feuille de style css pour le fichier test.html
+ */
+
+/* Police de caractère du site */
+body
+{
+	font-family:"Trebuchet MS",Verdana,Geneva,Arial,Helvetica,sans-serif;
+	font-size:13px;
+}
+
+/* Menu de la page inclu dans les différentes pages de gestion de compte */
+#menu ul {	
+	padding:0;
+	margin:0px auto;
+	list-style-type:none;
+	width:630px;
+ }
+#menu li {
+	display:block;
+	float:left; 
+	text-align:center;
+	width:24%;
+	list-style-type:none;
+	padding:3px;
+	background:-webkit-gradient( linear, left top, left bottom, color-stop(0.05, #9D9D9D), color-stop(1, #777777) );
+ }
+#menu a { 
+	color:black;
+	text-align:center;
+	text-decoration:none;		
+ } 
+ 
+#menu li:hover
+{
+	background:-webkit-gradient( linear, left top, left bottom, color-stop(0.05, #777777), color-stop(1, #9D9D9D) );
+}
+
+#menu li:active
+{
+	color: #000;
+    background: #444;
+    background: -webkit-linear-gradient( #555, #2C2C2C);
+    background:    -moz-linear-gradient( #555, #2C2C2C);
+    background:     -ms-linear-gradient( #555, #2C2C2C);
+    background:      -o-linear-gradient( #555, #2C2C2C);
+    background:         linear-gradient( #555, #2C2C2C);
+    box-shadow: 1px 1px 10px black inset, 
+                 0 1px 0 rgba( 255, 255, 255, 0.4);
+}
+
+
+/* Entête du site avec le titre */
+#entete
+{
+	margin:0 auto;
+	background:white;
+	width:630px;
+	text-align:center;
+}
+
+
+/* Positionnement du formulaire */
+#connexion
+{
+	margin:0 auto;
+	background:#DEDEDE;
+	width:630px;
+	box-shadow: 1px 1px 12px #555;	
+	-webkit-border-top-left-radius: 5px;
+	-webkit-border-top-right-radius: 5px;
+	-moz-border-radius-topleft: 5px;
+	-moz-border-radius-topright: 5px;
+	border-top-left-radius: 5px;
+	border-top-right-radius: 5px;
+}
+
+#connexion h3
+{
+	padding:3px;
+	padding-left:10px;
+	background:-webkit-gradient( linear, left top, left bottom, color-stop(0.05, #9D9D9D), color-stop(1, #777777) );
+	-webkit-border-top-left-radius: 5px;
+	-webkit-border-top-right-radius: 5px;
+	-moz-border-radius-topleft: 5px;
+	-moz-border-radius-topright: 5px;
+	border-top-left-radius: 5px;
+	border-top-right-radius: 5px;
+}
+
+#connexion p
+{
+	padding-left:10px;
+}
+
+#utile a
+{
+	color:black;
+	text-decoration:none;
+}
+
+#utile a:hover
+{
+	color:white;
+}
+
+#utile
+{
+	padding-top:25px;
+	padding-left:300px;
+	padding-bottom:10px;
+}
+
+#formConnexion
+{
+	margin:0 auto;
+	width:300px;
+	background:#DEDEDE;
+}
+
+/* Mot de passe oublié */
+
+#formForgetMdp
+{
+	margin:0 auto;
+	width:51%;
+	background:#DEDEDE;
+}
+
+#formForgetMdp a
+{
+	color:black;
+	text-decoration:none;
+}
+
+#formForgetMdp a:hover
+{
+	color:white;
+}
+
+/* Page d'erreur de connexion */
+#erreurCo 
+{
+	text-align:center;
+	padding-bottom:10px;
+}
+
+#erreurCo a
+{	
+	color:black;
+	text-decoration:none;
+}
+
+#erreurCo a:hover
+{	
+	color:white;
+}
+
+
+/* Page de gestion  */
+
+#pagegestionU
+{
+	margin:0px auto;
+	width:628px;
+	box-shadow: 1px 1px 12px #555;	
+	-webkit-border-top-left-radius: 5px;
+	-webkit-border-top-right-radius: 5px;
+	-moz-border-radius-topleft: 5px;
+	-moz-border-radius-topright: 5px;
+	border-top-left-radius: 5px;
+	border-top-right-radius: 5px;
+	background:#DEDEDE;
+	padding-bottom : 10px;
+}
+#pagegestionU table
+{	
+	margin-left:10px;
+	margin-top : 10px;	
+	float:left;
+}
+
+/* Page de gestion */
+
+#pagegestionD 
+{
+	margin:0px auto;
+	width:628px;
+	box-shadow: 1px 1px 12px #555;	
+	-webkit-border-top-left-radius: 5px;
+	-webkit-border-top-right-radius: 5px;
+	-moz-border-radius-topleft: 5px;
+	-moz-border-radius-topright: 5px;
+	border-top-left-radius: 5px;
+	border-top-right-radius: 5px;
+	background:#DEDEDE;
+	padding-bottom : 10px;	
+}
+
+#pagegestionD form
+{
+	margin-top:15px;
+}
+#pagegestionD #btnAjouter{
+	margin-top:14px;
+}
+#pagegestionD table
+{	
+	margin-left:10px;
+	float : left;
+	margin-top:10px;
+}
+
+/* Page de modification des informations */ 
+#modifier
+{
+	margin:0px  auto;
+	box-shadow: 1px 1px 12px #555;		
+	width : 628px;
+	-webkit-border-top-left-radius: 5px;
+	-webkit-border-top-right-radius: 5px;
+	-moz-border-radius-topleft: 5px;
+	-moz-border-radius-topright: 5px;
+	border-top-left-radius: 5px;
+	border-top-right-radius: 5px;
+	background:#DEDEDE;
+}
+
+#modifier form
+{
+	padding:20px;
+}
+
+/* Bouton retour pour le formulaire :
+	- mdp oublié
+	- nous contacter
+	- inscription */
+#btnRetour{
+	float : right;
+	margin-right : 55px;
+	margin-top: 10px;	
+}
+#btnRetour a{
+	text-decoration:none;
+	color:black;
+}
+
+
+/* affichage d'un message pour l'utilisateur  */
+ .msg p{
+	color:red;
+ }
+ 
+
