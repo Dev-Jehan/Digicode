@@ -67,49 +67,47 @@
 							<p>Vous n'êtes pas enregistré, veuillez contacter l'administrateur ! </p>
 							<a href='index.php'><u>Retour</u></a>
 						</div>
-					</div>");
+					</div>
 					<?php
 				}
 				else
 				{
 					/* Si l'utilisateur a été trouvé  */
-					if($resultat == true)  {
-						/* sauvegarde de son nom et de son mot de passe dans des variables de session */
-						$_SESSION['nom']=$_POST['txtnom'];
-						$_SESSION['password']=$_POST['txtmdp'];
-					
-						/* si l'utilisateur connecté est un administrateur ou bien un autre utilisateur */
-						if($resultat->level == 2)	{
-							$_SESSION['level']='admin';
-						}
-						else
-						{	
-							if($resultat->level == 1) 	{
-								$_SESSION['level']='user';
-							}
-							else
-							{
-								$_SESSION['level']='none';
-							}
-						}
-					
-						/* appel de la page suivante gestion.php*/
-						header("Location:gestion.php");	
-					}
-					else
-					{
-						/* affichage de l'erreur */
-						?>
-						<div id="connexion">
-							<h3>Erreur de connexion</h3>
-							<div id="erreurCo">
-								Erreur de connexion, informations erronées ! </br>							
-								<a href="index.php"><u>Retour</u></a>
-							</div>
-						</div>
-						<?php
-					}
-				}
+                    /* Si l'utilisateur a été trouvé  */
+                    if ($resultat == true)  {
+                        /* sauvegarde de son nom et de son mot de passe dans des variables de session */
+                        $_SESSION['nom'] = $_POST['txtnom'];
+                        $_SESSION['password'] = $_POST['txtmdp'];
+
+                        /* Sauvegarder l'ID de l'utilisateur dans la session */
+                        $_SESSION['user_id'] = $resultat->id;  // Ajoute cette ligne pour stocker l'ID
+
+                        /* si l'utilisateur connecté est un administrateur ou bien un autre utilisateur */
+                        if ($resultat->level == 2) {
+                            $_SESSION['level'] = 'admin';
+                        } else {
+                            if ($resultat->level == 1) {
+                                $_SESSION['level'] = 'user';
+                            } else {
+                                $_SESSION['level'] = 'none';
+                            }
+                        }
+
+                        /* appel de la page suivante gestion.php*/
+                        header("Location:gestion.php");
+                    } else {
+                        /* affichage de l'erreur */
+                        ?>
+                        <div id="connexion">
+                            <h3>Erreur de connexion</h3>
+                            <div id="erreurCo">
+                                Erreur de connexion, informations erronées ! </br>
+                                <a href="index.php"><u>Retour</u></a>
+                            </div>
+                        </div>
+                        <?php
+                    }
+                }
 			}
 		}
 		/* Si l'action est déconnexion */

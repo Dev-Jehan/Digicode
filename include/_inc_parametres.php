@@ -8,8 +8,8 @@
 $PARAM_HOTE = "localhost";		// nom du serveur de données : localhost 
 $PARAM_port = '3306';
 $PARAM_USER = "root";			// nom de l'utilisateur
-$PARAM_PWD  = "root";		// son mot de passe					
-$PARAM_BDD  = "mrbsxx";			// nom de la base de données	
+$PARAM_PWD  = "";		// son mot de passe
+$PARAM_BDD  = "2025_mrbs_05";			// nom de la base de données
 
 // Autres paramètres -----------------------------------------------------------------------------------------
 global $DELAI_DIGICODE, $ADR_MAIL_EMETTEUR;
