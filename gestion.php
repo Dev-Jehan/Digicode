@@ -90,6 +90,15 @@ if (isset($_SESSION['user_id'])) {
 
                 <tr>
                     <td>
+                        <!-- Lien vers la modification de son mot de passe -->
+                        <a href="modifmdp.php">
+                            <button type="button">Modifier mot de passe</button>
+                        </a>
+                    </td>
+                </tr>
+
+                <tr>
+                    <td>
                         Page en cours de développement!!! <img src="images/chantier.jpg">
                     </td>
                 </tr>
