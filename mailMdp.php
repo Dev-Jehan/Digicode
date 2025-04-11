@@ -76,7 +76,7 @@ else
 
 
 $message = "Bonjour Madame,Monsieur " . $nom .". ".utf8_decode ("Conformément à votre demande, 
-votre mot de passe vient de vous être renvoyé"). "</br>
+votre mot de passe vient de vous être renvoyé"). "
 Vos Informations :  
 Votre identifiant : ".$nom." 
 Votre Mot de Passe : ".$mdp.";";
