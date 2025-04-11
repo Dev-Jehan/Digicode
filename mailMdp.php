@@ -75,11 +75,8 @@ else
 //=====Déclaration des messages au format texte et au format HTML.
 
 
-$message = "Bonjour Madame,Monsieur " . $nom .". ".utf8_decode ("Conformément à votre demande, 
-votre mot de passe vient de vous être renvoyé"). "
-Vos Informations :  
-Votre identifiant : ".$nom." 
-Votre Mot de Passe : ".$mdp.";";
+$message = "Bonjour Madame,Monsieur " . $nom .". ".mb_convert_encoding("Conformément à votre demande, votre mot de passe vient de vous être renvoyé", 'ISO-8859-1', 'UTF-8')."Vos Informations :  Votre identifiant : ".$nom."  Votre Mot de Passe : ".$mdp.";";
+
 
 
 //=====Définition du sujet.
@@ -108,6 +105,6 @@ catch (exception $e)
 <?php
 
 // redirection vers index.php
-redirect("index.php","10");
+redirect("index.php","3");
 session_destroy();
 ?>
