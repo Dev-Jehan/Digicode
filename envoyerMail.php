@@ -8,6 +8,12 @@ include_once('include/_inc_connexion.php');
 require_once("include/redirect.php");
 include ("include/Outils.class.php");
 
+// Vérification si l'utilisateur est connecté et s'il a le niveau 2 (admin)
+if (!isset($_SESSION['user_id']) || $_SESSION['level'] != 'admin') {
+    echo "Accès interdit. Vous devez être un administrateur pour modifier le digicode.";
+    exit;
+}
+
 if (!isset($_SESSION['user_id'])) {
     echo "Accès interdit. Vous devez être connecté.";
     exit;

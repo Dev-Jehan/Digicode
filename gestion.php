@@ -18,93 +18,105 @@ if (isset($_SESSION['user_id'])) {
     $stmtUser->bindParam(':id', $userId, PDO::PARAM_INT);
     $stmtUser->execute();
 
-//    // Si l'utilisateur est trouvé
-//    if ($rowUser = $stmtUser->fetch(PDO::FETCH_ASSOC)) {
-//        echo "ID: " . $rowUser['id'] . "<br>";
-//        echo "Level: " . $rowUser['level'] . "<br>";
-//        echo "Name: " . $rowUser['name'] . "<br>";
-//        echo "Email: " . $rowUser['email'] . "<br>";
-//    } else {
-//        echo "Utilisateur non trouvé.";
-//    }
+    // Si l'utilisateur est trouvé
+    if ($rowUser = $stmtUser->fetch(PDO::FETCH_ASSOC)) {
+        // Récupère le niveau de l'utilisateur
+        $userLevel = $rowUser['level'];  // Récupère le niveau de l'utilisateur
 
-    // Récupération du digicode depuis la table mrbs_room
-    $sqlDigicode = "SELECT digicode FROM mrbs_room LIMIT 1";  // Sélectionne le digicode (si une seule valeur unique dans la table)
-    $stmtDigicode = $cnx->query($sqlDigicode);
+        // Récupération du digicode depuis la table mrbs_room
+        $sqlDigicode = "SELECT digicode FROM mrbs_room LIMIT 1";  // Sélectionne le digicode (si une seule valeur unique dans la table)
+        $stmtDigicode = $cnx->query($sqlDigicode);
 
-    if ($stmtDigicode && $rowDigicode = $stmtDigicode->fetch(PDO::FETCH_ASSOC)) {
-        // Récupère le digicode et l'affiche
-        $digicode = $rowDigicode['digicode'];
-//        echo "Digicode: " . $digicode . "<br>";
+        if ($stmtDigicode && $rowDigicode = $stmtDigicode->fetch(PDO::FETCH_ASSOC)) {
+            $digicode = $rowDigicode['digicode'];
+        } else {
+            echo "Digicode non trouvé.";
+        }
     } else {
-        echo "Digicode non trouvé.";
+        echo "Utilisateur non trouvé.";
     }
 } else {
     echo "Utilisateur non connecté.";
 }
 ?>
+
 <!DOCTYPE HTML>
 <html lang="fr">
 
-  <head>
+<head>
     <title>Maison des Ligues</title>
     <meta http-equiv="content-type" content="text/html; charset=utf-8" />
     <link href="./styles/style.css" rel="stylesheet" type="text/css" />
-  </head>
+</head>
 
-  <body>
-	<div id="entete">
-		<img src="images/logo.jpg">
-	</div>
+<body>
+<div id="entete">
+    <img src="images/logo.jpg">
+</div>
 
-	<div id="menu">
-		<?php include("menu.php"); ?>
-	</div>
+<div id="menu">
+    <?php include("menu.php"); ?>
+</div>
 
-	<div id="pagegestionD">
-		<div style="clear:both"></div>
-			<table>
-                <tr>
-                    <td>
-                        Nom : <?php echo $_SESSION['nom']; ?>
-                    </td>
-                </tr>
-                <tr>
-                    <td>
-                        Niveau : <?php echo $_SESSION['level']; ?>
-                    </td>
-                </tr>
+<div id="pagegestionD">
+    <div style="clear:both"></div>
+    <table>
+        <tr>
+            <td>
+                Nom : <?php echo $_SESSION['nom']; ?>
+            </td>
+        </tr>
+        <tr>
+            <td>
+                Niveau : <?php echo $_SESSION['level']; ?>
+            </td>
+        </tr>
 
-                <?php
-                // Affichage du digicode uniquement pour les niveaux 'admin' et 'user'
-                if ($_SESSION['level'] == 'admin' || $_SESSION['level'] == 'user') {
-                    ?>
-                    <tr>
-                        <td>
-                            Digicode : <?php echo htmlspecialchars($digicode); ?>
-                        </td>
-                    </tr>
-                    <?php
-                }
-                ?>
+        <?php
+        // Affichage du digicode uniquement pour les niveaux 'admin' et 'user'
+        if ($_SESSION['level'] == 'admin' || $_SESSION['level'] == 'user') {
+            ?>
+            <tr>
+                <td>
+                    Digicode : <?php echo htmlspecialchars($digicode); ?>
+                </td>
+            </tr>
+            <?php
+        }
+        ?>
 
-                <tr>
-                    <td>
-                        <!-- Lien vers la modification de son mot de passe -->
-                        <a href="modifmdp.php">
-                            <button type="button">Modifier mot de passe</button>
-                        </a>
-                    </td>
-                </tr>
+        <?php
+        // Affichage du lien vers logConnection.php uniquement pour les administrateurs (niveau 2)
+        if ($userLevel == 2) {
+            ?>
+            <tr>
+                <td>
+                    <a href="logConnection.php">
+                        <button type="button">Accéder aux logs de connexion</button>
+                    </a>
+                </td>
+            </tr>
+            <?php
+        }
+        ?>
 
-                <tr>
-                    <td>
-                        Page en cours de développement!!! <img src="images/chantier.jpg">
-                    </td>
-                </tr>
-            </table>
-		<div style="clear:both"></div>
+        <tr>
+            <td>
+                <!-- Lien vers la modification de son mot de passe -->
+                <a href="modifmdp.php">
+                    <button type="button">Modifier mot de passe</button>
+                </a>
+            </td>
+        </tr>
 
-	</div>
-   </body>
+        <tr>
+            <td>
+                Page en cours de développement!!! <img src="images/chantier.jpg">
+            </td>
+        </tr>
+    </table>
+    <div style="clear:both"></div>
+
+</div>
+</body>
 </html>

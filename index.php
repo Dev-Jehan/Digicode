@@ -26,91 +26,73 @@
 	</div>
 	
 	<?php
-		
-		/* Vérification de la variable action qui ne contient rien lors de la 1ère exécution */
-		if (isset($_GET['action'])&& $_GET['action']=="connexion")
-		{
-			/* Vérification des champs vides */
-			if ($_POST['txtnom']=="" OR $_POST['txtmdp']=="")
-			{
-				/* message d'erreur si les champs sont vides */
-				?>
-				<div id="connexion">
-					<h3>Erreur de connexion</h3>
-					<div id="erreurCo">
-						Merci de bien vouloir renseigner les champs </br>
-						<a href="index.php"><u>Retour</u></a>
-					</div>
-				</div>
-				<?php
-			}
-							
-			/* Si les champs sont remplis */
-			else
-			{
-				/* recherche de l'utilisateur à partir de son nom et de son mot de passe */
-				// préparation de la requête
-				$req_pre = $cnx->prepare("SELECT * FROM mrbs_users WHERE name=:nom AND password=:mdp");
-				// liaison des variables à la requête préparée
-				$req_pre->bindValue(':nom', $_POST['txtnom'], PDO::PARAM_STR);
-				// dans la base de données de l'application VALRES, les mots de passe sont codés en md5 
-				$req_pre->bindValue(':mdp', md5($_POST['txtmdp']), PDO::PARAM_STR);
-				$req_pre->execute();
-				//le résultat est récupéré sous forme d'objet
-				$resultat=$req_pre->fetch(PDO::FETCH_OBJ);
-				
-				//si aucune ligne trouvée
-				if (!$resultat) {
-					?> <div id='connexion'>
-						<h3>Erreur de connexion</h3>
-						<div id='erreurCo'>
-							<p>Vous n'êtes pas enregistré, veuillez contacter l'administrateur ! </p>
-							<a href='index.php'><u>Retour</u></a>
-						</div>
-					</div>
-					<?php
-				}
-				else
-				{
-					/* Si l'utilisateur a été trouvé  */
-                    /* Si l'utilisateur a été trouvé  */
-                    if ($resultat == true)  {
-                        /* sauvegarde de son nom et de son mot de passe dans des variables de session */
-                        $_SESSION['nom'] = $_POST['txtnom'];
-                        $_SESSION['password'] = $_POST['txtmdp'];
 
-                        /* Sauvegarder l'ID de l'utilisateur dans la session */
-                        $_SESSION['user_id'] = $resultat->id;  // Ajoute cette ligne pour stocker l'ID
+    if (isset($_GET['action']) && $_GET['action'] == "connexion") {
+        if ($_POST['txtnom'] == "" || $_POST['txtmdp'] == "") {
+            ?>
+            <div id="connexion">
+                <h3>Erreur de connexion</h3>
+                <div id="erreurCo">
+                    Merci de bien vouloir renseigner les champs </br>
+                    <a href="index.php"><u>Retour</u></a>
+                </div>
+            </div>
+            <?php
+        } else {
+            $nom = $_POST['txtnom'];
+            $mdp = md5($_POST['txtmdp']);  // codage MD5 comme dans la base
 
-                        /* si l'utilisateur connecté est un administrateur ou bien un autre utilisateur */
-                        if ($resultat->level == 2) {
-                            $_SESSION['level'] = 'admin';
-                        } else {
-                            if ($resultat->level == 1) {
-                                $_SESSION['level'] = 'user';
-                            } else {
-                                $_SESSION['level'] = 'none';
-                            }
-                        }
+            // Vérifier si l'utilisateur existe
+            $req_user = $cnx->prepare("SELECT * FROM mrbs_users WHERE name = :nom");
+            $req_user->bindValue(':nom', $nom, PDO::PARAM_STR);
+            $req_user->execute();
+            $user = $req_user->fetch(PDO::FETCH_OBJ);
 
-                        /* appel de la page suivante gestion.php*/
-                        header("Location:gestion.php");
-                    } else {
-                        /* affichage de l'erreur */
-                        ?>
-                        <div id="connexion">
-                            <h3>Erreur de connexion</h3>
-                            <div id="erreurCo">
-                                Erreur de connexion, informations erronées ! </br>
-                                <a href="index.php"><u>Retour</u></a>
-                            </div>
-                        </div>
-                        <?php
-                    }
-                }
-			}
-		}
-		/* Si l'action est déconnexion */
+            // Initialiser les données de connexion échouée si besoin
+            if (!$user) {
+                $raison = 2; // utilisateur inconnu
+            } else if ($user->password != $mdp) {
+                $raison = 1; // mauvais mot de passe
+            }
+
+            // Si connexion échouée
+            if (!isset($raison)) {
+                // Succès de connexion
+                $_SESSION['nom'] = $nom;
+                $_SESSION['password'] = $_POST['txtmdp'];
+                $_SESSION['user_id'] = $user->id;
+                $_SESSION['level'] = ($user->level == 2) ? 'admin' : (($user->level == 1) ? 'user' : 'none');
+                header("Location:gestion.php");
+            } else {
+                // Récupération des infos à logguer
+                $ip = $_SERVER['REMOTE_ADDR'];
+                $date = date('Y-m-d');
+                $heure = date('H:i:s');
+
+                // Insertion dans la table mrbs_connectLoose
+                $insert = $cnx->prepare("INSERT INTO mrbs_connectLoose (name, password, date, heure, adresseIP, raison)
+                                     VALUES (:name, :password, :date, :heure, :ip, :raison)");
+                $insert->bindValue(':name', $nom, PDO::PARAM_STR);
+                $insert->bindValue(':password', $_POST['txtmdp'], PDO::PARAM_STR);  // mot de passe en clair (comme saisi)
+                $insert->bindValue(':date', $date, PDO::PARAM_STR);
+                $insert->bindValue(':heure', $heure, PDO::PARAM_STR);
+                $insert->bindValue(':ip', $ip, PDO::PARAM_STR);
+                $insert->bindValue(':raison', $raison, PDO::PARAM_INT);
+                $insert->execute();
+                ?>
+                <div id="connexion">
+                    <h3>Erreur de connexion</h3>
+                    <div id="erreurCo">
+                        Erreur de connexion, informations erronées ! </br>
+                        <a href="index.php"><u>Retour</u></a>
+                    </div>
+                </div>
+                <?php
+            }
+        }
+    }
+
+    /* Si l'action est déconnexion */
 		elseif (isset($_GET['action']) && $_GET['action']=="deconnexion")
 		{
 			/* suppression des variables de session */
